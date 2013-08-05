@@ -13,11 +13,6 @@
     }, 
     transitionEnd = transEndEventNames[Modernizr.prefixed('transition')];
 
-    //remove the following function when u need normal functioning links
-	[].forEach.call(items, function(item){
-	  item.classList.add('closed-item');
-	});
-
 	//open and close menu when the button is clicked
 	var open = false;
 	button.addEventListener('click', handler, false);

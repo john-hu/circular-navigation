@@ -5,13 +5,6 @@
     wrapper = document.getElementById('cn-wrapper'),
     overlay = document.getElementById('cn-overlay');
 
-    //remove the following function when u need normal functioning links
-	[].forEach.call(anchors, function(anchor){
-	  anchor.onclick = function(e){
-	    e.preventDefault();
-	  }
-	});
-
 	//open and close menu when the button is clicked
 	var open = false;
 	button.addEventListener('click', handler, false);
