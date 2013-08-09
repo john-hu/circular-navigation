@@ -20,6 +20,17 @@ body {
   font: 300 1em "Source Sans Pro", sans-serif;
 }
 
+.back {
+  text-decoration: none;
+  color: #888;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 70%;
+  letter-spacing: 1px;
+  display: inline-block;
+  margin-left: 30px;
+}
+
 p {
   margin-bottom: 10px
 }

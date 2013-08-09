@@ -22,7 +22,7 @@ $('.step-button').on('click', function(e){
       case 7: step7(); break;
   }
   step++;
-  if(step > 8){
+  if(step > 7){
     reset.trigger('click');
     step = 1;
   }
@@ -39,22 +39,18 @@ function step1(){
       steps.html('Items are moved so that their transform origin (bottom right corner) coincides with the container\'s center, and their overflow is hidden');
   
   }
+
   function step2(){
-    items.css({'transform': 'skew(50deg)'});
-    steps.html('Items are skewed by: 90deg - value of central angle');
-  }
-  
-  function step3(){
     items.each(function(i, el){
       var angle = i * 40 - 10;
       $(this).css({
         'transform': 'rotate('+angle+'deg) skew(50deg)'
       });
     });
-    steps.html('Items are rotated, each item is rotated by: (index of item * value of central angle) - 10deg');
+    steps.html('Items are rotated, each item is rotated by: (index of item * value of central angle) - 10deg, and then they are skewed by: 90deg - value of central angle');
   }
   
-  function step4(){
+  function step3(){
      anchors.css({
       'transform': 'skew(-50deg) rotate(-70deg) scale(1)',
       'border-radius': '50%',
@@ -64,17 +60,17 @@ function step1(){
     steps.html('Anchors inside each item are positioned absolutely, unskewed, rotated by -(90 - central-angle/2) and their text is aligned at the center so that their content is visible');
   }
   
-  function step5(){
+  function step4(){
     wrapper.css('border-radius', '50%');
     steps.html('Container is rounded');
   }
   
-  function step6(){
+  function step5(){
     wrapper.css('overflow', 'hidden');
     steps.html('Container\'s overflow is hidden (the items are cut off)');
   }
   
-  function step7(){
+  function step6(){
     wrapper.css('bottom', '-13em');
      steps.html('Container (whole navigation) is positioned at the bottom');
     reset.removeAttr('disabled');
