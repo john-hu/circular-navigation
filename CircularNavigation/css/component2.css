@@ -140,6 +140,7 @@ body {
 
 .csstransforms .cn-wrapper li a {
 	position: absolute;
+	position: fixed; /* fix the displacement bug in webkit browsers when using tab key */
 	right: -7.25em;
 	bottom: -7.25em;
 	display: block;
