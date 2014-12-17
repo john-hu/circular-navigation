@@ -140,7 +140,6 @@ body {
 
 .csstransforms .cn-wrapper li a {
 	position: absolute;
-	position: fixed; /* fix the displacement bug in webkit browsers when using tab key */
 	right: -7.25em;
 	bottom: -7.25em;
 	display: block;
@@ -180,6 +179,9 @@ body {
 	background: -webkit-radial-gradient(transparent 35%, #449e6a 35%);
 	background: -moz-radial-gradient(transparent 35%, #449e6a 35%);
 	background: radial-gradient(transparent 35%, #449e6a 35%);
+}
+.csstransforms .cn-wrapper li a:focus {
+    position: fixed; /* fix the displacement bug in webkit browsers when using tab key */
 }
 
 .csstransforms .opened-nav li {
