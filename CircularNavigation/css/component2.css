@@ -180,9 +180,12 @@ body {
 	background: -moz-radial-gradient(transparent 35%, #449e6a 35%);
 	background: radial-gradient(transparent 35%, #449e6a 35%);
 }
+
+
+/*	This will cause problem on IE11
 .csstransforms .cn-wrapper li a:focus {
-    position: fixed; /* fix the displacement bug in webkit browsers when using tab key */
-}
+    position: fixed; fix the displacement bug in webkit browsers when using tab key 
+}*/ 
 
 .csstransforms .opened-nav li {
 	-webkit-transition: all .3s ease .3s;

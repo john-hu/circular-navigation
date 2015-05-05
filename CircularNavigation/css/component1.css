@@ -206,6 +206,7 @@ items should be rotated by x, minus (sum of angles - 180)2s (for this demo) */
   background-color: #b31515;
   background-color: hsla(0, 88%, 70%, 1);
 }
+
 .csstransforms .cn-wrapper li:not(.active) a:focus
 {
     position:fixed;
