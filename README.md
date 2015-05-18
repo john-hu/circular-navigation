@@ -4,3 +4,9 @@ Circular Navigation With CSS Transforms
 Demo for Codrops Tutorial: Building a Circular Navigation with CSS Transforms
 
 Licensed under MIT.
+
+# IMPORTANT NOTE
+
+The CSS-only menu is buggy, not to mention the technique is hacky. If you want to use a circular menu on your page / in your app, I recommend using SVG.
+
+To make and download a ready-to-use SVG circular menu, use [this tool](http://sarasoueidan.com/tools/circulus).
