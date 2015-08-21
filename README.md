@@ -3,6 +3,8 @@ Circular Navigation With CSS Transforms
 
 Demo for Codrops Tutorial: Building a Circular Navigation with CSS Transforms
 
+This version will only work at Firefox and Chrome. For other browsers, please test it and tell me. Thanks.
+
 Licensed under MIT.
 
 # IMPORTANT NOTE
