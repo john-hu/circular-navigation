@@ -22,4 +22,20 @@
 		classie.remove(wrapper, 'opened-nav');
 	}
 
+	var container = document.getElementById('menu-container');
+	var menu = new CircularMenu(container);
+	menu.addItem('aa', 'AAAAAAAAAAAAAAA');
+	menu.addItem('bb', 'BBBBBBBBBBBBBBB');
+	menu.addItem('cc', 'CCCCCCCCCCCCCCC');
+	menu.addItem('dd', 'DDDDDDDDDDDDDDD');
+	menu.addItem('ee', 'EEEEEEEEEEEEEEE');
+	menu.addItem('ff', 'FFFFFFFFFFFFFFF');
+	// menu.addItem('gg', 'GGGGGGGGGGGGGGG');
+	// menu.addItem('hh', 'HHHHHHHHHHHHHHH');
+	// menu.addItem('gg', 'GGGGGGGGGGGGGGG');
+	// menu.addItem('hh', 'HHHHHHHHHHHHHHH');
+	// menu.addItem('gg', 'GGGGGGGGGGGGGGG');
+	// menu.addItem('hh', 'HHHHHHHHHHHHHHH');
+	menu.render();
+
 })();
