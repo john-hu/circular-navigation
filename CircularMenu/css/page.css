@@ -8,12 +8,13 @@ body {
 
 body {
   color: #fff;
+  background-color: green;
 }
 
 div#menu-container {
   position: absolute;
-  top: 400px;
-  left: 300px;
+  top: 0;
+  left: 0;
   width: 400px;
   height: 400px;
 }
@@ -33,4 +34,24 @@ div#menu-container {
   background: -moz-radial-gradient(transparent 35%, yellow 35%);
   background: radial-gradient(transparent 35%, yellow 35%);
   color: red;
+}
+
+.cn-button {
+  position: absolute;
+  top: 100px;
+  left: 100px;
+  z-index: 11;
+  width: 200px;
+  height: 200px;
+  border: none;
+  border-radius: 50%;
+  background: none;
+  background-color: #fff;
+  color: #52be7f;
+  text-align: center;
+  font-weight: 700;
+  font-size: 1.5em;
+  text-transform: uppercase;
+  cursor: pointer;
+  -webkit-backface-visibility: hidden;
 }

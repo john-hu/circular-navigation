@@ -1,13 +1,26 @@
 'use strict';
 (function(exports) {
   var MAGIC_ROTATION_FACTOR = 0.25;
-  function CircularMenu(container, marginAngle) {
+  function CircularMenu(container) {
     this.container = container;
-    this.marginAngle = marginAngle || 0;
+    this.marginAngle = 2;
     this.items = [];
   }
 
   var proto = CircularMenu.prototype;
+
+  Object.defineProperty(proto, 'opened', {
+    get: function() {
+      return this.container.classList.contains('opened');
+    },
+    set: function(newValue) {
+      if (newValue === true) {
+        this.container.classList.add('opened');
+      } else {
+        this.container.classList.remove('opened');
+      }
+    }
+  });
 
   proto.addItem = function(id, text, classLists) {
     this.items.push({
