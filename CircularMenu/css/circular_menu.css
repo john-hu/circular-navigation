@@ -3,25 +3,28 @@
   z-index: 10;
   border-radius: 60%;
   background: transparent;
-  opacity: 0;
-  -webkit-transition: transform .3s ease 0.3s, opacity .3s ease 0.3s;
-  -moz-transition: transform .3s ease 0.3s, opacity .3s ease 0.3s;
-  transition: transform .3s ease 0.3s, opacity .3s ease 0.3s;
+
+  -webkit-transition: transform .2s, visibility .2s;
+  -moz-transition: transform .2s, visibility .2s;
+  transition: transform .2s, visibility .2s;
+
   -webkit-transform: scale(0.1);
-  -ms-transform: scale(0.1);
   -moz-transform: scale(0.1);
+  -ms-transform: scale(0.1);
   transform: scale(0.1);
+
   pointer-events: none;
   overflow: hidden;
+  visibility: hidden;
 }
 
+.circular-menu.opening,
 .circular-menu.opened {
-  opacity: 1;
   -webkit-transform: scale(1);
   -moz-transform: scale(1);
   -ms-transform: scale(1);
   transform: scale(1);
-  pointer-events: auto;
+  visibility: visible;
 }
 
 .circular-menu:after {
@@ -44,11 +47,10 @@
   overflow: hidden;
   width: 50%;
   height: 50%;
-  -webkit-transition: transform .3s ease;
-  -moz-transition: transform .3s ease;
-  transition: transform .3s ease;
+  -webkit-transition: transform .2s;
+  -moz-transition: transform .2s;
+  transition: transform .2s;
   transform-origin: 100% 100%;
-  pointer-events: auto;
 }
 
 .circular-menu .circular-menu-item .circular-menu-item-anchor {
@@ -62,6 +64,16 @@
   text-decoration: none;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
+}
+
+/* only opened can have pointer event */
+.circular-menu.opened {
+  pointer-events: auto;
+}
+
+.circular-menu.opened .circular-menu-item,
+.circular-menu.opened .circular-menu-item .circular-menu-item-anchor {
+  pointer-events: auto;
   pointer-events: auto;
   cursor: pointer;
   cursor: hand;

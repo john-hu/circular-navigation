@@ -12,13 +12,6 @@
   Object.defineProperty(proto, 'opened', {
     get: function() {
       return this.container.classList.contains('opened');
-    },
-    set: function(newValue) {
-      if (newValue === true) {
-        this.container.classList.add('opened');
-      } else {
-        this.container.classList.remove('opened');
-      }
     }
   });
 
@@ -54,7 +47,7 @@
     this._menuContainer = this.container;
   };
 
-  proto._renderItem = function(item, idx) {
+  proto._renderItem = function(item) {
     var menu = document.createElement('div');
     menu.role = 'menu';
     menu.classList.add('circular-menu-item');
@@ -62,8 +55,7 @@
       menu.classList.add(cls);
     });
     menu.id = item.id;
-    var itemAngle = 90 + (idx - 0.5) * (this._fanAngle) +
-                         this.marginAngle * idx;
+    var itemAngle = 90 - 0.5 * this._fanAngle;
     menu.style.transform = 'rotate(' + itemAngle + 'deg) ' +
                            'skew(' + this._skewAngle + 'deg)';
 
@@ -71,10 +63,90 @@
     anchor.textContent = item.text;
     anchor.classList.add('circular-menu-item-anchor');
     anchor.style.transform = 'skew(-' + this._skewAngle + 'deg) ' +
-                             'rotate(-' + this._innerRotate + 'deg) scale(1)';
+                             'rotate(-' + this._innerRotate + 'deg)';
 
     menu.appendChild(anchor);
     this._menuContainer.appendChild(menu);
+    item.ui = {
+      'menu': menu
+    };
+  };
+
+  proto._enlargeMenus = function() {
+    this.container.classList.add('opening');
+    return this._getTransition(this.container, 'transform').finished;
+  };
+
+  proto._rotateMenus = function(opening) {
+    return Promise.all(this.items.map((item, idx) => {
+      var menu = item.ui.menu;
+      var angle;
+      if (opening) {
+        angle = 90 + (idx - 0.5) * (this._fanAngle) + this.marginAngle * idx;
+        angle = angle > 270 ? angle - 360 : angle;
+        console.log(idx, angle);
+      } else {
+        angle = 90 - 0.5 * this._fanAngle;
+      }
+      menu.style.transform = 'rotate(' + angle + 'deg) ' +
+                             'skew(' + this._skewAngle + 'deg)';
+
+      var transition = this._getTransition(menu, 'transform');
+      return transition ? transition.finished : Promise.resolve();
+    }));
+  };
+
+  proto._shrinkMenus = function() {
+    this.container.classList.remove('opening');
+    this.container.classList.remove('opened');
+    var transition = this._getTransition(this.container, 'transform');
+    return transition ? transition.finished : Promise.resolve();
+  };
+
+  proto._getTransition = function(element, attr) {
+    return element.getAnimations().find((animation) => {
+      return animation.transitionProperty === attr;
+    });
+  };
+
+  proto.open = function() {
+    return new Promise((resolve, reject) => {
+      var reset = () => {
+        this._shrinkMenus();
+        this._rotateMenus(false);
+        reject();
+      };
+      this._enlargeMenus()
+        .then(this._rotateMenus.bind(this, true), reset)
+        .then(() => {
+          this.container.classList.remove('opening');
+          this.container.classList.add('opened');
+          resolve();
+        }, reset)
+        .catch((e) => {
+          console.error(e);
+          reject();
+        });
+    });
+  };
+
+  proto.close = function() {
+    return new Promise((resolve, reject) => {
+      var reset = () => {
+        this._shrinkMenus();
+        this._rotateMenus(false);
+        reject();
+      };
+      this._rotateMenus(false)
+        .then(this._shrinkMenus.bind(this), reset)
+        .then(() => {
+          resolve();
+        }, reset)
+        .catch((e) => {
+          console.error(e);
+          reject();
+        });
+    });
   };
 
   exports.CircularMenu = CircularMenu;

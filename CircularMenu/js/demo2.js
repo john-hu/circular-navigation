@@ -1,4 +1,7 @@
 (function(){
+  function changeButtonText() {
+    button.textContent = menu.opened ? 'Close' : 'Menu';
+  }
 
   var button = document.getElementById('cn-button');
   var container = document.getElementById('menu-container');
@@ -10,17 +13,16 @@
   menu.addItem('dd', 'DDDDDDDDDDDDDDD');
   menu.addItem('ee', 'EEEEEEEEEEEEEEE');
   menu.addItem('ff', 'FFFFFFFFFFFFFFF');
-
-  menu.opened = false;
   menu.render();
+
   changeButtonText();
-  function changeButtonText() {
-    button.textContent = menu.opened ? 'Close' : 'Menu';
-  }
 
   button.addEventListener('click', function() {
-    menu.opened = !menu.opened;
-    changeButtonText();
+    if (menu.opened) {
+      menu.close().then(changeButtonText);
+    } else {
+      menu.open().then(changeButtonText);
+    }
   });
 
 })();
