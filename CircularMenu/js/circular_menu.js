@@ -1,10 +1,10 @@
 'use strict';
 (function(exports) {
-  var MAGIC_ROTATION_FACTOR = 0.25;
   function CircularMenu(container) {
     this.container = container;
     this.marginAngle = 2;
     this.items = [];
+    this.totalAngle = 210;
   }
 
   var proto = CircularMenu.prototype;
@@ -34,11 +34,12 @@
 
   proto.render = function() {
     this._renderedCount = this.items.length < 4 ? 4 : this.items.length;
-    this._fanAngle = 360 / this._renderedCount - this.marginAngle;
+    this._fanAngle = this.totalAngle / this._renderedCount - this.marginAngle;
     this._skewAngle = 90 - this._fanAngle;
-    var rotateRatio = (this._renderedCount  - 2) * MAGIC_ROTATION_FACTOR;
-    this._innerRotate = (this._fanAngle + this.marginAngle) * rotateRatio;
+    this._paddingAngle = (this.totalAngle - 180) / 2;
+    this._innerRotate = (90 - this._fanAngle / 2);
     this._renderContainer();
+    this._centerIndex = Math.floor(this.items.length / 2);
     this.items.forEach(this._renderItem.bind(this));
   };
 
@@ -55,7 +56,8 @@
       menu.classList.add(cls);
     });
     menu.id = item.id;
-    var itemAngle = 90 - 0.5 * this._fanAngle;
+    var itemAngle = this._centerIndex * (this._fanAngle + this.marginAngle)
+                        - this._paddingAngle;
     menu.style.transform = 'rotate(' + itemAngle + 'deg) ' +
                            'skew(' + this._skewAngle + 'deg)';
 
@@ -82,11 +84,12 @@
       var menu = item.ui.menu;
       var angle;
       if (opening) {
-        angle = 90 + (idx - 0.5) * (this._fanAngle) + this.marginAngle * idx;
+        angle = idx * (this._fanAngle + this.marginAngle) - this._paddingAngle;
         angle = angle > 270 ? angle - 360 : angle;
         console.log(idx, angle);
       } else {
-        angle = 90 - 0.5 * this._fanAngle;
+        angle = this._centerIndex * (this._fanAngle + this.marginAngle)
+                    - this._paddingAngle;
       }
       menu.style.transform = 'rotate(' + angle + 'deg) ' +
                              'skew(' + this._skewAngle + 'deg)';

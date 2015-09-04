@@ -64,6 +64,7 @@
   text-decoration: none;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
+  /*line-height: 80px;*/
 }
 
 /* only opened can have pointer event */

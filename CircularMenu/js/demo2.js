@@ -12,7 +12,6 @@
   menu.addItem('cc', 'CCCCCCCCCCCCCCC');
   menu.addItem('dd', 'DDDDDDDDDDDDDDD');
   menu.addItem('ee', 'EEEEEEEEEEEEEEE');
-  menu.addItem('ff', 'FFFFFFFFFFFFFFF');
   menu.render();
 
   changeButtonText();
