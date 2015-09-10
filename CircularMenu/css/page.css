@@ -20,10 +20,10 @@ div#menu-container {
 }
 
 .circular-menu .circular-menu-item .circular-menu-item-anchor {
-  background: #429a67;
-  background: -webkit-radial-gradient(transparent 35%, #429a67 35%);
-  background: -moz-radial-gradient(transparent 35%, #429a67 35%);
-  background: radial-gradient(transparent 35%, #429a67 35%);
+  background: #81bae5;
+  background: -webkit-radial-gradient(transparent 35%, #81bae5 35%);
+  background: -moz-radial-gradient(transparent 35%, #81bae5 35%);
+  background: radial-gradient(transparent 35%, #81bae5 35%);
 }
 
 .circular-menu .circular-menu-item .circular-menu-item-anchor:hover,
