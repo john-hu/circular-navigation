@@ -1,3 +1,10 @@
+Note
+==============================================
+This component is extended from CircularNavigation which is made by Codrops, http://www.codrops.com.
+
+The following is the original README.md:
+
+
 Circular Navigation With CSS Transforms
 ===============================================
 
