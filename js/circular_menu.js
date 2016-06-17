@@ -81,7 +81,8 @@
 
   proto._enlargeMenus = function() {
     this.container.classList.add('opening');
-    return this._getTransition(this.container, 'transform').finished;
+    var transition = this._getTransition(this.container, 'transform');
+    return transition ? transition.finished : Promise.resolve();
   };
 
   proto._rotateMenus = function(opening) {
@@ -115,48 +116,60 @@
   };
 
   proto._getTransition = function(element, attr) {
-    return element.getAnimations().find((animation) => {
+    return element.getAnimations ? element.getAnimations().find((animation) => {
       return animation.transitionProperty === attr;
-    });
+    }) : null;
   };
 
   proto.open = function() {
     return new Promise((resolve, reject) => {
-      var reset = () => {
-        this._shrinkMenus();
-        this._rotateMenus(false);
-        reject();
-      };
-      this._enlargeMenus()
-        .then(this._rotateMenus.bind(this, true), reset)
-        .then(() => {
-          this.container.classList.remove('opening');
-          this.container.classList.add('opened');
-          resolve();
-        }, reset)
-        .catch((e) => {
-          console.error(e);
+      if (!this.container.getAnimations) {
+        this._rotateMenus(true);
+        this.container.classList.add('opened');
+        resolve();
+      } else {
+        var reset = () => {
+          this._shrinkMenus();
+          this._rotateMenus(false);
           reject();
-        });
+        };
+        this._enlargeMenus()
+          .then(this._rotateMenus.bind(this, true), reset)
+          .then(() => {
+            this.container.classList.remove('opening');
+            this.container.classList.add('opened');
+            resolve();
+          }, reset)
+          .catch((e) => {
+            console.error(e);
+            reject();
+          });
+      }
     });
   };
 
   proto.close = function() {
     return new Promise((resolve, reject) => {
-      var reset = () => {
-        this._shrinkMenus();
+      if (!this.container.getAnimations) {
         this._rotateMenus(false);
-        reject();
-      };
-      this._rotateMenus(false)
-        .then(this._shrinkMenus.bind(this), reset)
-        .then(() => {
-          resolve();
-        }, reset)
-        .catch((e) => {
-          console.error(e);
+        this._shrinkMenus();
+        resolve();
+      } else {
+        var reset = () => {
+          this._shrinkMenus();
+          this._rotateMenus(false);
           reject();
-        });
+        };
+        this._rotateMenus(false)
+          .then(this._shrinkMenus.bind(this), reset)
+          .then(() => {
+            resolve();
+          }, reset)
+          .catch((e) => {
+            console.error(e);
+            reject();
+          });
+      }
     });
   };
 
