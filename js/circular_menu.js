@@ -19,7 +19,7 @@
     this.items.push({
       'id': id,
       'text': text,
-      'classLists': classLists || []
+      'classLists': Array.isArray(classLists) ? classLists : (classLists ? [classLists] : [])
     });
   };
 
@@ -49,6 +49,11 @@
   };
 
   proto._renderItem = function(item) {
+    if (!item.id) {
+      item.ui = {};
+      return;
+    }
+
     var menu = document.createElement('div');
     menu.role = 'menu';
     menu.classList.add('circular-menu-item');
@@ -62,7 +67,7 @@
                            'skew(' + this._skewAngle + 'deg)';
 
     var anchor = document.createElement('a');
-    anchor.textContent = item.text;
+    anchor.textContent = item.text || '';
     anchor.classList.add('circular-menu-item-anchor');
     anchor.style.transform = 'skew(-' + this._skewAngle + 'deg) ' +
                              'rotate(-' + this._innerRotate + 'deg)';
@@ -82,6 +87,9 @@
   proto._rotateMenus = function(opening) {
     return Promise.all(this.items.map((item, idx) => {
       var menu = item.ui.menu;
+      if (!menu) {
+        return;
+      }
       var angle;
       if (opening) {
         angle = idx * (this._fanAngle + this.marginAngle) - this._paddingAngle;
