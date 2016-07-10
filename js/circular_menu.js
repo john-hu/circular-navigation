@@ -57,7 +57,7 @@
     var menu = document.createElement('div');
     menu.role = 'menu';
     menu.classList.add('circular-menu-item');
-    item.classLists.forEach((cls) => {
+    item.classLists.forEach(function(cls) {
       menu.classList.add(cls);
     });
     menu.id = item.id;
@@ -86,7 +86,7 @@
   };
 
   proto._rotateMenus = function(opening) {
-    return Promise.all(this.items.map((item, idx) => {
+    return Promise.all(this.items.map(function(item, idx) {
       var menu = item.ui.menu;
       if (!menu) {
         return;
@@ -105,7 +105,7 @@
 
       var transition = this._getTransition(menu, 'transform');
       return transition ? transition.finished : Promise.resolve();
-    }));
+    }.bind(this)));
   };
 
   proto._shrinkMenus = function() {
@@ -116,61 +116,49 @@
   };
 
   proto._getTransition = function(element, attr) {
-    return element.getAnimations ? element.getAnimations().find((animation) => {
+    return element.getAnimations ? element.getAnimations().find(function(animation) {
       return animation.transitionProperty === attr;
     }) : null;
   };
 
   proto.open = function() {
-    return new Promise((resolve, reject) => {
-      if (!this.container.getAnimations) {
-        this._rotateMenus(true);
-        this.container.classList.add('opened');
-        resolve();
-      } else {
-        var reset = () => {
-          this._shrinkMenus();
-          this._rotateMenus(false);
+    return new Promise(function(resolve, reject) {
+      var reset = function() {
+        this._shrinkMenus();
+        this._rotateMenus(false);
+        reject();
+      }.bind(this);
+      this._enlargeMenus()
+        .then(this._rotateMenus.bind(this, true), reset)
+        .then(function() {
+          this.container.classList.remove('opening');
+          this.container.classList.add('opened');
+          resolve();
+        }.bind(this), reset)
+        .catch(function(e) {
+          console.error(e);
           reject();
-        };
-        this._enlargeMenus()
-          .then(this._rotateMenus.bind(this, true), reset)
-          .then(() => {
-            this.container.classList.remove('opening');
-            this.container.classList.add('opened');
-            resolve();
-          }, reset)
-          .catch((e) => {
-            console.error(e);
-            reject();
-          });
-      }
-    });
+        });
+    }.bind(this));
   };
 
   proto.close = function() {
-    return new Promise((resolve, reject) => {
-      if (!this.container.getAnimations) {
-        this._rotateMenus(false);
+    return new Promise(function(resolve, reject) {
+      var reset = function() {
         this._shrinkMenus();
-        resolve();
-      } else {
-        var reset = () => {
-          this._shrinkMenus();
-          this._rotateMenus(false);
+        this._rotateMenus(false);
+        reject();
+      }.bind(this);
+      this._rotateMenus(false)
+        .then(this._shrinkMenus.bind(this), reset)
+        .then(function() {
+          resolve();
+        }, reset)
+        .catch(function(e) {
+          console.error(e);
           reject();
-        };
-        this._rotateMenus(false)
-          .then(this._shrinkMenus.bind(this), reset)
-          .then(() => {
-            resolve();
-          }, reset)
-          .catch((e) => {
-            console.error(e);
-            reject();
-          });
-      }
-    });
+        });
+    }.bind(this));
   };
 
   exports.CircularMenu = CircularMenu;
